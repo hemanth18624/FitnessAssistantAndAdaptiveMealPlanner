@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Inter, system-ui, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background: radial-gradient(circle at right, #2a2d40, #0b0c12);
+            color: white;
+            overflow: hidden;
+        }
+
+        /* ---------- HEADER ---------- */
+
+        header {
+            padding: 24px 60px;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        /* ---------- MAIN ---------- */
+
+        main {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            height: calc(100vh - 80px);
+            padding: 60px;
+        }
+
+        .text-section h1 {
+            font-size: 56px;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+
+        .text-section p {
+            font-size: 16px;
+            color: #b8bbff;
+            max-width: 520px;
+        }
+
+        /* ---------- CARD SECTION ---------- */
+
+        .cards {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card {
+            width: 220px;
+            height: 360px;
+            border-radius: 24px;
+            overflow: hidden;
+            background: #111;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .card:nth-child(2) {
+            animation-delay: 1.5s;
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-label {
+            position: absolute;
+            bottom: 18px;
+            left: 18px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-18px); }
+            100% { transform: translateY(0); }
+        }
+
+        /* ---------- CHATBOTS ---------- */
+
+        .chatbots {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            gap: 16px;
+        }
+
+        .chatbot {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.2);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.7);
+            cursor: pointer;
+            background: #000;
+        }
+
+        .chatbot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    Fitness Addict
+</header>
+
+<main>
+    <!-- LEFT TEXT -->
+    <section class="text-section">
+        <h1>
+            Your Lifestyle<br>
+            Answer to<br>
+            Healthy Living
+        </h1>
+        <p>
+            Personalized workouts, nutrition guidance, and AI-powered
+            fitness coaching designed to fit your daily routine.
+        </p>
+    </section>
+
+    <!-- RIGHT CARDS -->
+    <section class="cards">
+        <div class="card">
+            <a href="/fitness-chat">
+            <img src="{{ url_for('static', filename='fitness.jpeg') }}" alt="Fitness Assistant">
+        </a>
+
+        </div>
+
+        
+
+        <div class="card">
+            <a href="/meal-planner">
+                <img src="{{ url_for('static', filename='mealimage.jpeg') }}" alt="Adaptive Meal Planner">
+            </a>
+        </div>
+    </section>
+</main>
+
+</body>
+</html>
+
+

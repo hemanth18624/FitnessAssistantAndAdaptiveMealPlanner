@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Personalized Meal Plan</title>
+
+<style>
+:root {
+  --primary: #4f46e5;
+  --primary-dark: #4338ca;
+  --accent: #22c55e;
+  --bg-gradient: linear-gradient(135deg, #eef2ff 0%, #ecfeff 100%);
+  --card-bg: rgba(255, 255, 255, 0.92);
+  --border: #e5e7eb;
+  --text-main: #0f172a;
+  --text-muted: #6b7280;
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+  --shadow-lg: 0 40px 80px rgba(0, 0, 0, 0.12);
+  --shadow-md: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 16px;
+  color: var(--text-main);
+}
+
+/* ================= CARD ================= */
+.form-container {
+  position: relative;
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  border-radius: var(--radius-lg);
+  padding: 48px;
+  max-width: 960px;
+  width: 100%;
+  box-shadow: var(--shadow-lg);
+  animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Subtle gradient edge */
+.form-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(79,70,229,0.25), rgba(34,197,94,0.15));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ================= HEADER ================= */
+.form-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.form-header h1 {
+  font-size: clamp(1.8rem, 2.5vw, 2.2rem);
+  margin-bottom: 10px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.form-header p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* ================= GRID ================= */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 22px;
+}
+
+/* ================= INPUTS ================= */
+.field {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.field label {
+  font-size: 0.78rem;
+  margin-bottom: 6px;
+  color: #475569;
+  font-weight: 500;
+}
+
+.field input,
+.field select {
+  padding: 13px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: white;
+  font-size: 0.92rem;
+  transition: 
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.15s ease;
+}
+
+.field input::placeholder {
+  color: #9ca3af;
+}
+
+/* Focus */
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
+  transform: translateY(-1px);
+}
+
+/* Hover */
+.field input:hover,
+.field select:hover {
+  border-color: #c7d2fe;
+}
+
+/* ================= PLAN DURATION ================= */
+.plan-duration {
+  margin-top: 48px;
+  padding: 32px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(
+    135deg,
+    rgba(238, 242, 255, 0.9),
+    rgba(236, 254, 255, 0.9)
+  );
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.plan-duration::after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(circle, rgba(79,70,229,0.08), transparent 70%);
+  animation: slowGlow 6s linear infinite;
+}
+
+.plan-duration h3 {
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  position: relative;
+  z-index: 1;
+}
+
+.plan-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.plan-options input {
+  display: none;
+}
+
+.plan-options label {
+  background: white;
+  padding: 16px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  text-align: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.plan-options label:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.08);
+}
+
+.plan-options input:checked + label {
+  border-color: var(--primary);
+  background: linear-gradient(135deg, #eef2ff, #ecfeff);
+  color: var(--primary);
+  font-weight: 600;
+  box-shadow: 0 14px 30px rgba(79,70,229,0.25);
+}
+
+/* ================= BUTTON ================= */
+.submit-btn {
+  margin-top: 44px;
+  width: 100%;
+  padding: 18px;
+  font-size: 1rem;
+  border-radius: var(--radius-md);
+  border: none;
+  background: linear-gradient(135deg, var(--primary), #6366f1);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+
+.submit-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 22px 45px rgba(79, 70, 229, 0.35);
+}
+
+.submit-btn:active {
+  transform: translateY(0);
+}
+
+/* ================= ANIMATIONS ================= */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slowGlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 640px) {
+  .form-container {
+    padding: 32px 22px;
+  }
+
+  .plan-duration {
+    padding: 26px;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<form class="form-container" action="/plan" method="POST">
+
+  <div class="form-header">
+    <h1>Adaptive Meal Planner</h1>
+    <p>Tell us about yourself to create a tailored meal plan</p>
+  </div>
+
+  <div class="form-grid">
+
+    <div class="field">
+      <label>Age</label>
+      <input type="number" name="age" required />
+    </div>
+
+    <div class="field">
+      <label>Gender</label>
+      <select name="gender">
+        <option>Male</option>
+        <option>Female</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Height (cm)</label>
+      <input type="number" name="height" required />
+    </div>
+
+    <div class="field">
+      <label>Weight (kg)</label>
+      <input type="number" name="weight" required />
+    </div>
+
+    <div class="field">
+      <label>Region</label>
+      <input type="text" name="region" />
+    </div>
+
+    <div class="field">
+      <label>Primary Goal</label>
+      <select name="goal">
+        <option>Weight Loss</option>
+        <option>Weight Gain</option>
+        <option>Overall Maintainence</option>
+        <option>Muscle Gain / Recomposition</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Target Weight (kg)</label>
+      <input type="number" name="target_weight" />
+    </div>
+
+    <div class="field">
+      <label>Urgency</label>
+      <select name="urgency">
+        <option>High</option>
+        <option>Medium</option>
+        <option>Low</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Activity Level</label>
+      <select name="activity">
+        <option>Sedentary</option>
+        <option>Moderate</option>
+        <option>Active</option>
+        <option>Highly Active</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Diet Type</label>
+      <select name="diet">
+        <option>Vegetarian</option>
+        <option>Non-Vegetarian</option>
+        <option>Vegan</option>
+        <option>Eggitarian</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Cuisine Type</label>
+      <select name="cuisine">
+        <option>Indian</option>
+        <option>Mediterranean</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Medical Conditions (if any)</label>
+      <input type="text" name="medical" />
+    </div>
+
+    <div class="field">
+      <label>Food Allergies (if any)</label>
+      <input type="text" name="allergies" />
+    </div>
+
+  </div>
+
+  <!-- BIG PLAN DURATION SECTION -->
+  <div class="plan-duration">
+    <h3>Plan Duration</h3>
+    <div class="plan-options">
+      <input type="radio" id="weekly" name="duration" value="Weekly">
+      <label for="weekly">Weekly</label>
+
+      <input type="radio" id="biweekly" name="duration" value="Bi-Weekly">
+      <label for="biweekly">Bi-Weekly</label>
+
+      <input type="radio" id="monthly" name="duration" value="Monthly">
+      <label for="monthly">Monthly</label>
+
+      <input type="radio" id="quarterly" name="duration" value="Quarterly">
+      <label for="quarterly">Quarterly</label>
+
+      <input type="radio" id="halfyearly" name="duration" value="Half Yearly">
+      <label for="halfyearly">Half Yearly</label>
+
+      <input type="radio" id="yearly" name="duration" value="Yearly">
+      <label for="yearly">Yearly</label>
+    </div>
+  </div>
+
+  <button class="submit-btn" type="submit">Generate My Plan</button>
+
+</form>
+
+</body>
+</html>
