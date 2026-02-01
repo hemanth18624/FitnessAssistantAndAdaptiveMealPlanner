@@ -1,0 +1,4 @@
+chat.html ---> Adaptive Meal Planner's Chatbot Interface
+dashboard.html ---> Main Landing Page when app.py is started
+fitness_chat.html ---> Fitness Chatbot Interface
+index.html ---> Form Input Page when user clicks on the Adaptive Meal Planner Button
